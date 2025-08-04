@@ -1,0 +1,56 @@
+* {
+    cursor: none;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    display: flex;
+    color: #a52a2a;
+    flex-wrap: nowrap;
+}
+
+.container {
+    width: 50vmin;
+    height: 50vmin;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    border: 1px solid #000;
+}
+
+.container div {
+    width: calc(25%);
+    height: calc(25%);
+    box-sizing: border-box;
+    border: 1px solid #000;
+    position: relative;
+}
+
+.container div:hover {
+    background-color: #dd9f9f;
+}
+
+.goblin {
+    width: 90px;
+    background-image: url('../img/goblin.png');
+    background-repeat: no-repeat;
+}
+
+.cursor {
+    position:absolute;
+    height: 85px;
+    width:85px;
+    background-image: url("../img/hammer.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+  }
