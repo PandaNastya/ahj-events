@@ -8,40 +8,48 @@ export default class WhackGoblin{
         this.cells = [];
         this.points = new Points;
         this.container = document.querySelector(".container");
+        this.interval = null;
     }
 
-    victory() {  //вы выиграли
+    victory(e) {  //вы выиграли
+        if (!e.target.classList.contains('goblin')) {
+		    return;
+	    }
+        this.points.increaseHits();
+	    e.target.removeEventListener('click', this.victory);
         if (this.points.increaseHits === 10) {
             alert("VICTORY");
             this.endGame();
         }
-    }
-
-    loss() {  //вы проиграли
-        if (this.points.increaseMisses === 5) {
-            alert("YOU LOST! TRY AGAIN");
-            this.endGame();
-        }
+        document.querySelector('.goblin').remove();
+        clearInterval(this.interval);
+        this.startGame();
     }
 
     startGame() {
+        if (document.querySelector('.goblin')) {
+		document.querySelector('.goblin').remove();
+		this.points.increaseDefeat();
+		clearInterval(this.interval);
 
-    }
-
-    drowContainer() {  //отрисовка таблицы игры
+        if (this.points.increaseMisses === 5) { //вы проиграли
+            alert("YOU LOST! TRY AGAIN");
+            this.endGame();
+        }
+        }
+            //отрисовка таблицы игры
         if (!this.container) {
             console.error("Контейнер не найден!");
-            return;
-            }
+            return; 
+        }
 
         for(let i = 0; i < 16; i++) {
             let cell = document.createElement("div");
             this.container.append(cell);
             this.cells.push(cell);
         }
-    }
 
-    randomMovie() {  //рандомная позиция гоблина
+            //рандомная позиция гоблина
         this.cells[this.currentCell].innerHTML = "";
         let newCell;
         do {
@@ -49,7 +57,8 @@ export default class WhackGoblin{
         } while (newCell === this.currentCell);
         this.cells[newCell].append(goblin);
 
-        setInterval(randomMovie, 1000);
+        goblin.addEventListener('click', this.victory.bind(this));
+	    this.interval = setInterval(this.startGame.bind(this), 1000);
     }
 
     endGame() {  //игра закончена, обнуление
